@@ -1,3 +1,3 @@
-#include "EntradaTabla.h"
+//#include "EntradaTabla.h"
 
-EntradaTabla::EntradaTabla() {}
+//EntradaTabla::EntradaTabla() {}
