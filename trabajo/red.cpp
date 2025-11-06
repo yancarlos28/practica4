@@ -18,12 +18,14 @@ bool Red::existe(const string& id) const noexcept {
 void Red::agregarEnrutador(const string& id) {
     if (existe(id)) return;
     enrutadores_.emplace(id, Enrutador{id});
+    recalcularTablas();
 }
 
 void Red::eliminarEnrutador(const string& id) {
     if (!existe(id)) return;
     for (auto& [_, r] : enrutadores_) {
         r.eliminarEnlace(id);
+        recalcularTablas();
     }
     enrutadores_.erase(id);
 }
@@ -35,6 +37,7 @@ void Red::agregarEnlace(const string& a, const string& b, int costo) {
     if (!existe(b)) agregarEnrutador(b);
     enrutadores_.at(a).agregarEnlace(b, costo);
     enrutadores_.at(b).agregarEnlace(a, costo);
+    recalcularTablas();
 }
 
 void Red::actualizarCosto(const string& a, const string& b, int nuevoCosto) {
@@ -44,6 +47,7 @@ void Red::actualizarCosto(const string& a, const string& b, int nuevoCosto) {
         throw runtime_error("El enlace no existe");
     enrutadores_.at(a).agregarEnlace(b, nuevoCosto);
     enrutadores_.at(b).agregarEnlace(a, nuevoCosto);
+    recalcularTablas();
 }
 
 void Red::eliminarEnlace(const string& a, const string& b) {
@@ -63,7 +67,9 @@ void Red::dijkstra(
     dist[origen] = 0;
 
     using Par = pair<int, string>;
-    auto cmp = [](const Par& a, const Par& b){ return a.first > b.first; };
+    auto cmp = [](const Par& a, const Par& b)
+    { return a.first > b.first;
+    };
     priority_queue<Par, vector<Par>, decltype(cmp)> pq(cmp);
     pq.push({0, origen});
 

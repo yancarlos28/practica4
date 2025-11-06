@@ -234,7 +234,7 @@ int main() {
     cin.tie(&cout); // <- vuelve a atar cin a cout
 
     Red red;
-    cout << "=== Simulador de Red (Menú por secciones) ===\n";
+    cout << "=== Simulador de Red ===\n";
 
     while (true) {
         cout << "\n=== Menú principal ===\n"
