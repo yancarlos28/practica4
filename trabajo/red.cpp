@@ -1,6 +1,5 @@
 #include "Red.h"
 #include <queue>
-#include <limits>
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
@@ -55,7 +54,7 @@ void Red::eliminarEnlace(const string& a, const string& b) {
     enrutadores_.at(a).eliminarEnlace(b);
     enrutadores_.at(b).eliminarEnlace(a);
 }
-
+//algoritmo para el camino más eficiente
 void Red::dijkstra(
     const string& origen,
     unordered_map<string, int>& dist,
@@ -79,7 +78,7 @@ void Red::dijkstra(
 
         const auto& ru = enrutadores_.at(u);
         for (const auto& [v, w] : ru.adyacentes()) {
-            if (w < 0) throw runtime_error("Se detectó costo negativo");
+            if (w < 0) throw runtime_error("Se detecto costo negativo");
             if (dist[u] != INT_MAX && dist[u] + w < dist[v]) {
                 dist[v] = dist[u] + w;
                 padre[v] = u;
@@ -95,7 +94,8 @@ vector<string> Red::reconstruirCamino(
     const unordered_map<string, string>& padre
     ) {
     vector<string> camino;
-    if (origen == destino) { camino.push_back(origen); return camino; }
+    if (origen == destino) {
+        camino.push_back(origen); return camino; }
     string cur = destino;
 
     // Si destino no tiene padre y no es el origen, está desconectado
@@ -104,7 +104,8 @@ vector<string> Red::reconstruirCamino(
     while (cur != origen) {
         camino.push_back(cur);
         auto it = padre.find(cur);
-        if (it == padre.end()) { camino.clear(); return camino; }
+        if (it == padre.end()) {
+            camino.clear(); return camino; }
         cur = it->second;
     }
     camino.push_back(origen);
@@ -157,13 +158,13 @@ void Red::cargarDesdeArchivo(const string& rutaArchivo) {
     string linea;
 
     int n = 0;
-    if (!getline(in, linea)) throw runtime_error("Archivo vacío");
+    if (!getline(in, linea)) throw runtime_error("Archivo vacio");
     {
         stringstream ss(linea);
-        if (!(ss >> n)) throw runtime_error("Primera línea debe ser un entero (número de enrutadores)");
+        if (!(ss >> n)) throw runtime_error("Primera linea debe ser un entero (número de enrutadores)");
     }
 
-    if (!getline(in, linea)) throw runtime_error("Falta línea de ids");
+    if (!getline(in, linea)) throw runtime_error("Falta linea de ids");
     {
         stringstream ss(linea);
         for (int i = 0; i < n; ++i) {

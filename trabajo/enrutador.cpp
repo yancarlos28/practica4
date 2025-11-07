@@ -6,7 +6,8 @@ using namespace std;
 
 Enrutador::Enrutador(const string& id) : id_(id) {}
 
-const string& Enrutador::obtenerId() const noexcept { return id_; }
+const string& Enrutador::obtenerId() const noexcept {
+    return id_; }
 
 void Enrutador::agregarEnlace(const string& vecino, int costo) {
     adyacentes_[vecino] = costo;
